@@ -22,7 +22,6 @@ public class SubscriptionService {
 	private ValidatorComponent validator;
 
 	public void subscribe(SubscribeRequestDto subscriptionDto) {
-
 		validate(subscriptionDto);
 
 		SubscriptionPk pk = new SubscriptionPk();
@@ -41,6 +40,26 @@ public class SubscriptionService {
 			subscriptionRepository.save(entity);
 		}
 		subscriptionRepository.save(entity);
+	}
+
+	public void block(SubscribeRequestDto blockDto) {
+		validate(blockDto);
+		
+		SubscriptionPk pk = new SubscriptionPk();
+		pk.setRequestorEmailId(blockDto.getRequestor());
+		pk.setTargetEmailId(blockDto.getTarget());
+
+		SubscriptionEntity entity = subscriptionRepository.findById(pk).orElse(null);
+
+		if (entity != null) {
+			entity.setBlock(true);
+			subscriptionRepository.save(entity);
+		} else {
+			entity = new SubscriptionEntity();
+			entity.setPk(pk);
+			entity.setBlock(true);
+			subscriptionRepository.save(entity);
+		}
 
 	}
 

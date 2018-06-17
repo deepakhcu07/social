@@ -111,5 +111,23 @@ public class FriendController {
 		response.setSuccess(true);
 		return new ResponseEntity<>(response, HttpStatus.CREATED);
 	}
+	
+	
+	@ApiOperation(value = "Block updates from an User (Email Address)", response = SuccessResponseDto.class)
+	@ApiResponses(value = {
+            @ApiResponse(code = 200, message = "Successfully Block Updates from an Email Address"),
+            @ApiResponse(code = 400, message = "Bad Request"),
+            @ApiResponse(code = 404, message = "User Not found"),
+            @ApiResponse(code = 500, message = "Internal Server Error")
+    }
+    )
+	@RequestMapping(value="/block", method = RequestMethod.POST)
+	public ResponseEntity<SuccessResponseDto> block(@RequestBody SubscribeRequestDto block) {
+		subscriptionService.block(block);
+		
+		SuccessResponseDto response = new SuccessResponseDto();
+		response.setSuccess(true);
+		return new ResponseEntity<>(response, HttpStatus.CREATED);
+	}
 
 }
