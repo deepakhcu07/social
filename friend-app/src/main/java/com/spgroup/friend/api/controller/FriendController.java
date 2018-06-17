@@ -10,9 +10,11 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.spgroup.friend.api.dto.request.FriendRequestDto;
 import com.spgroup.friend.api.dto.request.SearchFriendDto;
+import com.spgroup.friend.api.dto.request.SubscribeRequestDto;
 import com.spgroup.friend.api.dto.response.FriendListResponseDto;
 import com.spgroup.friend.api.dto.response.SuccessResponseDto;
 import com.spgroup.friend.service.FriendService;
+import com.spgroup.friend.service.SubscriptionService;
 
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -26,6 +28,9 @@ public class FriendController {
 	
 	@Autowired
 	private FriendService friendService;
+	
+	@Autowired
+	private SubscriptionService subscriptionService;
 	
 	@ApiOperation(value = "Create a new Friend Connection", response = String.class)
 	@ApiResponses(value = {
@@ -87,6 +92,24 @@ public class FriendController {
 	public ResponseEntity<FriendListResponseDto> getCommonFriendList(@RequestBody FriendRequestDto friends) {
 		FriendListResponseDto result =  friendService.findCommonFriends(friends);
 		return new ResponseEntity<>(result, HttpStatus.OK);
+	}
+	
+	
+	@ApiOperation(value = "Subscribe to updates from an User (Email Address)", response = SuccessResponseDto.class)
+	@ApiResponses(value = {
+            @ApiResponse(code = 201, message = "Successfully Subscribed to Email Address"),
+            @ApiResponse(code = 400, message = "Bad Request"),
+            @ApiResponse(code = 404, message = "User Not found"),
+            @ApiResponse(code = 500, message = "Internal Server Error")
+    }
+    )
+	@RequestMapping(value="/subscribe", method = RequestMethod.POST)
+	public ResponseEntity<SuccessResponseDto> subscribe(@RequestBody SubscribeRequestDto subscription) {
+		subscriptionService.subscribe(subscription);
+		
+		SuccessResponseDto response = new SuccessResponseDto();
+		response.setSuccess(true);
+		return new ResponseEntity<>(response, HttpStatus.CREATED);
 	}
 
 }
