@@ -12,6 +12,7 @@ import com.spgroup.friend.api.mapper.FriendEntityMapper;
 import com.spgroup.friend.api.util.ValidatorComponent;
 import com.spgroup.friend.entity.FriendEntity;
 import com.spgroup.friend.entity.FriendPk;
+import com.spgroup.friend.exception.InvalidDataException;
 import com.spgroup.friend.exception.ResourceAlreadyExistException;
 import com.spgroup.friend.repository.FriendRepository;
 
@@ -22,6 +23,9 @@ public class FriendService {
 
 	@Autowired
 	private UserService userService;
+	
+	@Autowired
+	private SubscriptionService subscriptionService;
 
 	@Autowired
 	private ValidatorComponent validator;
@@ -97,7 +101,16 @@ public class FriendService {
 		if (friendRepository.existsById(entity.getPk())) {
 			throw new ResourceAlreadyExistException("Users are already connected as a friend");
 		}
+		
+		validateBlock(friendRequest.getFriends().get(0), friendRequest.getFriends().get(1));
+		validateBlock(friendRequest.getFriends().get(1), friendRequest.getFriends().get(0));
 
+	}
+	
+	private void validateBlock(String requestor, String target) {
+		if(subscriptionService.isBlock(requestor, target)) {
+			throw new InvalidDataException("A friend connection cannot be made bacause " + requestor +" has blocked the "+ target +".");
+		}
 	}
 
 }

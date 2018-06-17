@@ -60,7 +60,18 @@ public class SubscriptionService {
 			entity.setBlock(true);
 			subscriptionRepository.save(entity);
 		}
-
+	}
+	
+	public boolean isBlock(String requestor, String target) {
+		SubscriptionPk subscriptionPk = new SubscriptionPk();
+		subscriptionPk.setRequestorEmailId(requestor);
+		subscriptionPk.setTargetEmailId(target);
+		
+		SubscriptionEntity entity =  subscriptionRepository.findById(subscriptionPk).orElse(null);
+		if(entity==null) {
+			return false;
+		}
+		return entity.isBlock();
 	}
 
 	private void validate(SubscribeRequestDto subscriptionDto) {
