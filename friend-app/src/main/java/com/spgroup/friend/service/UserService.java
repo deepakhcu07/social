@@ -12,7 +12,7 @@ import com.spgroup.friend.repository.UserRepository;
 public class UserService {
 	@Autowired
 	private UserRepository userRepository;
-	
+	@Autowired
 	private ValidatorComponent validator;
 	
 	public void create(UserRequestDto user) {
