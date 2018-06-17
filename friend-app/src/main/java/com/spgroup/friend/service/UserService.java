@@ -1,5 +1,7 @@
 package com.spgroup.friend.service;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -24,6 +26,17 @@ public class UserService {
 		entity.setEmailId(user.getEmail());
 		entity.setName(user.getName());
 		userRepository.save(entity);
+	}
+	
+	public void create(List<UserRequestDto> userDtoList) {
+		try {
+			for(UserRequestDto userDto: userDtoList) {
+				create(userDto);
+			}
+		}catch(UserNotFoundException ex) {
+			//TODO Add logger to log the message
+		}
+		
 	}
 	
 	public void  validateUser(String emailId) {
