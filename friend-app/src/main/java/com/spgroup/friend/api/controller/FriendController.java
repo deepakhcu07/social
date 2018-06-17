@@ -74,5 +74,19 @@ public class FriendController {
 		return new ResponseEntity<>(result, HttpStatus.OK);
 		
 	}
+	
+	
+	@ApiOperation(value = "Retrieve Common Friend List of given two Email Address", response = FriendListResponseDto.class)
+	@ApiResponses(value = {
+            @ApiResponse(code = 200, message = "Successfully Retrieved Common Freinds"),
+            @ApiResponse(code = 400, message = "Bad Request"),
+            @ApiResponse(code = 500, message = "Internal Server Error")
+    }
+    )
+	@RequestMapping(value="/common", method = RequestMethod.POST)
+	public ResponseEntity<FriendListResponseDto> getCommonFriendList(@RequestBody FriendRequestDto friends) {
+		FriendListResponseDto result =  friendService.findCommonFriends(friends);
+		return new ResponseEntity<>(result, HttpStatus.OK);
+	}
 
 }

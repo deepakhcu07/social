@@ -56,10 +56,30 @@ public class FriendService {
 		result.setFriends(friendList);
 		return result;
 	}
-	
-	private List<String> getFriendList(List<FriendEntity> friendList){
+
+	public FriendListResponseDto findCommonFriends(FriendRequestDto friends) {
+
+		validator.validateFriendRequestDto(friends);
+		List<FriendEntity> friends1 = friendRepository.findByPkUserEmailId(friends.getFriends().get(0));
+		List<FriendEntity> friends2 = friendRepository.findByPkUserEmailId(friends.getFriends().get(1));
+
+		FriendListResponseDto result = new FriendListResponseDto();
+		result.setSuccess(true);
+		List<String> friendList1 = getFriendList(friends1);
+		List<String> friendList2 = getFriendList(friends2);
+
+		List<String> commonFriendList = new ArrayList<>(friendList1);
+		commonFriendList.retainAll(friendList2);
+
+		result.setFriends(commonFriendList);
+		result.setCount(commonFriendList.size());
+
+		return result;
+	}
+
+	private List<String> getFriendList(List<FriendEntity> friendList) {
 		List<String> result = new ArrayList<>();
-		for(FriendEntity friend: friendList) {
+		for (FriendEntity friend : friendList) {
 			String f = friend.getPk().getFriendEmailId();
 			result.add(f);
 		}
