@@ -32,8 +32,15 @@ public class ValidatorComponent {
 			throw new InvalidDataException("Size of friends must be equal to two.");
 		}
 		
-		validateEmail(friendRequest.getFriends().get(0));
-		validateEmail(friendRequest.getFriends().get(1));
+		String email1 = friendRequest.getFriends().get(0).trim();
+		String email2 = friendRequest.getFriends().get(1).trim();
+		
+		if(email1.equals(email2)) {
+			throw new InvalidDataException("Both Email addresses cannot be same");
+		}
+		
+		validateEmail(email1);
+		validateEmail(email2);
 	}
 
 }

@@ -7,6 +7,7 @@ import com.spgroup.friend.api.dto.request.SubscribeRequestDto;
 import com.spgroup.friend.api.util.ValidatorComponent;
 import com.spgroup.friend.entity.SubscriptionEntity;
 import com.spgroup.friend.entity.SubscriptionPk;
+import com.spgroup.friend.exception.InvalidDataException;
 import com.spgroup.friend.repository.SubscriptionRepository;
 
 @Service
@@ -77,6 +78,10 @@ public class SubscriptionService {
 	private void validate(SubscribeRequestDto subscriptionDto) {
 		validator.validateEmail(subscriptionDto.getRequestor());
 		validator.validateEmail(subscriptionDto.getTarget());
+		
+		if(subscriptionDto.getRequestor().equals(subscriptionDto.getTarget())) {
+			throw new InvalidDataException("Requestor and Target Email Id cannot be same");
+		}
 
 		// Validate User Exist or Not
 		userService.validateUser(subscriptionDto.getRequestor());
