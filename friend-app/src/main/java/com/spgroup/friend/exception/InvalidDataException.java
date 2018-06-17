@@ -1,4 +1,4 @@
-package com.spgroup.friend;
+package com.spgroup.friend.exception;
 
 public class InvalidDataException extends RuntimeException {
 
