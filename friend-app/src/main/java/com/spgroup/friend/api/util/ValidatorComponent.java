@@ -3,6 +3,7 @@ package com.spgroup.friend.api.util;
 import java.util.List;
 
 import org.apache.commons.collections4.CollectionUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Component;
 
 import com.spgroup.friend.api.dto.request.FriendRequestDto;
@@ -13,7 +14,7 @@ import com.spgroup.friend.util.EmailUtil;
 public class ValidatorComponent {
 	
 	public void validateEmail(String email) {
-		if(email==null || email.length()==0) {
+		if(StringUtils.isEmpty(email)) {
 			throw new InvalidDataException("email cannot be null or empty.");
 		}
 		

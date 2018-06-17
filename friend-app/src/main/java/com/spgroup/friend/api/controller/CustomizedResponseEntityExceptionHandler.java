@@ -11,6 +11,7 @@ import org.springframework.web.context.request.WebRequest;
 import com.spgroup.friend.api.dto.response.ErrorrResponseDto;
 import com.spgroup.friend.exception.InvalidDataException;
 import com.spgroup.friend.exception.ResourceAlreadyExistException;
+import com.spgroup.friend.exception.UserNotFoundException;
 
 @ControllerAdvice
 public class CustomizedResponseEntityExceptionHandler {
@@ -19,6 +20,12 @@ public class CustomizedResponseEntityExceptionHandler {
 	public final ResponseEntity<ErrorrResponseDto> handleInvalidDataException(InvalidDataException ex, WebRequest request) {
 		ErrorrResponseDto error = new ErrorrResponseDto(new Date(),ex.getMessage(), request.getDescription(false));
 		return new ResponseEntity<ErrorrResponseDto>(error, HttpStatus.BAD_REQUEST);
+	}
+	
+	@ExceptionHandler(UserNotFoundException.class)
+	public final ResponseEntity<ErrorrResponseDto> handleUserNotFoundException(UserNotFoundException ex, WebRequest request) {
+		ErrorrResponseDto error = new ErrorrResponseDto(new Date(),ex.getMessage(), request.getDescription(false));
+		return new ResponseEntity<ErrorrResponseDto>(error, HttpStatus.NOT_FOUND);
 	}
 	
 	@ExceptionHandler(ResourceAlreadyExistException.class)
