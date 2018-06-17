@@ -13,7 +13,8 @@ In a social application, there are users. Any two users can be connected as a fr
 
 ### Documentation
 For Documentation, I have used the swagger API. Swagger help us to write the API document in the code. 
-We can find all the details about the API End Points documentation at `http://localhost:8080/swagger-ui.html`.
+API documentation is automatically generated once you start the application.
+We can find all the details about the API End Points documentation after starting the application  at `http://localhost:8080/swagger-ui.html`.
 
 I have assumed users data and all the connection, subscriptions are done from the user data. My API first validates whether the user exists or not. To test the application easily, I have defined 2 APIs 
 1. /users/bulk-create
@@ -31,6 +32,16 @@ I have defined three exceptions in the applications.
 For Example: Email is not valid or the expected value or size does not match the API requirements.
 2. `ResourceAlreadyExistApplication` This exception is thrown when you try to create friend which is already friends.
 3. `UserNotFoundException` If the given user is not found on the server, this exception is thrown.
+
+#### Database
+For this application, I have used h2 database. We can access the H2 Database Console, after starting the application 
+at `http://localhost:8080/h2`.
+Please provide the following information to connect to the database:
+	Driver Class: org.h2.Driver
+	JDBC URL: jdbc:h2:~/socialdb
+	User Name: spgroup
+	Password:
+	
 
 
 
