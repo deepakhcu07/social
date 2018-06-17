@@ -42,7 +42,9 @@ public class FriendController {
 	@ApiOperation(value = "Create a new Friend Connection", response = SuccessResponseDto.class)
 	@ApiResponses(value = {
             @ApiResponse(code = 201, message = "Successfully Created a new Connection"),
-            @ApiResponse(code = 400, message = "Bad Request")
+            @ApiResponse(code = 400, message = "Bad Request"),
+            @ApiResponse(code = 409, message = "Friend Connection already exists"),
+            @ApiResponse(code = 500, message = "Internal Server Error")
     }
     )
 	@RequestMapping(method = RequestMethod.POST)
