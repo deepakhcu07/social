@@ -11,7 +11,9 @@ import org.springframework.web.bind.annotation.RestController;
 import com.spgroup.friend.api.dto.request.FriendRequestDto;
 import com.spgroup.friend.api.dto.request.SearchFriendDto;
 import com.spgroup.friend.api.dto.request.SubscribeRequestDto;
+import com.spgroup.friend.api.dto.request.UpdateRequestDto;
 import com.spgroup.friend.api.dto.response.FriendListResponseDto;
+import com.spgroup.friend.api.dto.response.RecipientResponseDto;
 import com.spgroup.friend.api.dto.response.SuccessResponseDto;
 import com.spgroup.friend.service.FriendService;
 import com.spgroup.friend.service.SubscriptionService;
@@ -128,6 +130,20 @@ public class FriendController {
 		SuccessResponseDto response = new SuccessResponseDto();
 		response.setSuccess(true);
 		return new ResponseEntity<>(response, HttpStatus.CREATED);
+	}
+	
+	
+	@ApiOperation(value = "Retrieve all email addresses that will receive updates from given email address", response = RecipientResponseDto.class)
+	@ApiResponses(value = {
+            @ApiResponse(code = 200, message = "Successfully Retrieve all email addresses"),
+            @ApiResponse(code = 400, message = "Bad Request"),
+            @ApiResponse(code = 500, message = "Internal Server Error")
+    }
+    )
+	@RequestMapping(value="/recipients", method = RequestMethod.POST)
+	public ResponseEntity<RecipientResponseDto> recipients(@RequestBody UpdateRequestDto updates) {
+		RecipientResponseDto result = subscriptionService.getRecipients(updates);
+		return new ResponseEntity<>(result, HttpStatus.CREATED);
 	}
 
 }
