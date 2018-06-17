@@ -37,10 +37,12 @@ For Example: Email is not valid or the expected value or size does not match the
 For this application, I have used h2 database. We can access the H2 Database Console, after starting the application 
 at `http://localhost:8080/h2`.
 Please provide the following information to connect to the database:
+```
 	Driver Class: org.h2.Driver
 	JDBC URL: jdbc:h2:~/socialdb
 	User Name: spgroup
 	Password:
+```
 	
 
 
