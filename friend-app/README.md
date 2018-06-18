@@ -5,8 +5,8 @@
 - Maven 3+
 
 ### How to run
-1. `mvn clean install`
-2. `java -jar target/friend-api-xxxx.jar`
+1. `mvn clean package`
+2. `java -jar target/friend-app-1.0-SNAPSHOT.jar`
 
 ### User Stories
 In a social application, there are users. Any two users can be connected as a friend or a user can subscribe or block any other user. 
