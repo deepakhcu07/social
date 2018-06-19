@@ -4,12 +4,16 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.spgroup.friend.api.dto.request.UserRequestDto;
+import com.spgroup.friend.api.dto.response.SuccessResponseDto;
+import com.spgroup.friend.api.dto.response.UserResponseDto;
 import com.spgroup.friend.service.UserService;
 
 import io.swagger.annotations.Api;
@@ -24,31 +28,62 @@ public class UserController {
 	@Autowired
 	private UserService userService;
 
-	@ApiOperation(value = "Create a new User", response = String.class)
+	@ApiOperation(value = "Create a new User", response = SuccessResponseDto.class)
 	@ApiResponses(value = {
             @ApiResponse(code = 201, message = "Successfully Created"),
             @ApiResponse(code = 400, message = "Bad Request")
     }
     )
 	@RequestMapping(method=RequestMethod.POST)
-	public String create(@RequestBody UserRequestDto user) {
+	public ResponseEntity<SuccessResponseDto> create(@RequestBody UserRequestDto user) {
 		userService.create(user);
-		return "SUCCESS";
+		SuccessResponseDto response = new SuccessResponseDto();
+		response.setSuccess(true);
+		
+		return new ResponseEntity<>(response, HttpStatus.CREATED);
 	}
 	
-	@ApiOperation(value = "Create List of Users", response = String.class)
+	@ApiOperation(value = "Return all users", response = String.class)
+	@ApiResponses(value = {
+            @ApiResponse(code = 200, message = "OK"),
+            @ApiResponse(code = 500, message = "Internal Server Error")
+    }
+    )
+	@RequestMapping(method=RequestMethod.GET)
+	public ResponseEntity<List<UserResponseDto>> getAll() {
+		List<UserResponseDto> result = userService.getAllUsers();
+		return new ResponseEntity<>(result, HttpStatus.OK);
+	}
+	
+	@ApiOperation(value = "Create List of Users", response = SuccessResponseDto.class)
+	@ApiResponses(value = {
+            @ApiResponse(code = 201, message = "Successfully Created"),
+            @ApiResponse(code = 500, message = "Internal Server Error")
+    }
+    )
 	@RequestMapping(value= "/bulk-create",method = RequestMethod.POST)
-	public String create(@RequestBody List<UserRequestDto> users) {
+	public ResponseEntity<SuccessResponseDto>  create(@RequestBody List<UserRequestDto> users) {
 		userService.create(users);
-		return "SUCCESS";
+		SuccessResponseDto response = new SuccessResponseDto();
+		response.setSuccess(true);
+		
+		return new ResponseEntity<>(response, HttpStatus.CREATED);
 	}
 	
 	@ApiOperation(value = "Generate Dummy Users", response = String.class)
+	@ApiResponses(value = {
+            @ApiResponse(code = 201, message = "Successfully Created"),
+            @ApiResponse(code = 500, message = "Internal Server Error")
+    }
+    )
 	@RequestMapping(value="/dummy-data", method = RequestMethod.POST)
-	public String createDummyUser() {
+	public ResponseEntity<SuccessResponseDto> createDummyUser() {
 		List<UserRequestDto> users = generateUsers();
 		userService.create(users);
-		return "SUCCESS";
+		SuccessResponseDto response = new SuccessResponseDto();
+		response.setSuccess(true);
+		
+		return new ResponseEntity<>(response, HttpStatus.CREATED);
 	}
 	
 	private List<UserRequestDto> generateUsers(){

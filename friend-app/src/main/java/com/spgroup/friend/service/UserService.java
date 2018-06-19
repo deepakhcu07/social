@@ -6,6 +6,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.spgroup.friend.api.dto.request.UserRequestDto;
+import com.spgroup.friend.api.dto.response.UserResponseDto;
+import com.spgroup.friend.api.mapper.UserEntityMapper;
 import com.spgroup.friend.api.util.ValidatorComponent;
 import com.spgroup.friend.entity.UserEntity;
 import com.spgroup.friend.exception.UserNotFoundException;
@@ -26,6 +28,11 @@ public class UserService {
 		entity.setEmailId(user.getEmail());
 		entity.setName(user.getName());
 		userRepository.save(entity);
+	}
+	
+	public List<UserResponseDto> getAllUsers(){
+		List<UserEntity> users =  userRepository.findAll();
+		return UserEntityMapper.toDtoList(users);
 	}
 	
 	public void create(List<UserRequestDto> userDtoList) {
