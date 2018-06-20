@@ -30,6 +30,11 @@ public class FriendService {
 	@Autowired
 	private ValidatorComponent validator;
 
+	/**
+	 * Connects Two users together. 
+	 * If user A and B are friend, this also implies that B and A are also friend. 
+	 * @param friendRequest
+	 */
 	public void connectFriend(FriendRequestDto friendRequest) {
 
 		validate(friendRequest);
@@ -48,6 +53,11 @@ public class FriendService {
 		friendRepository.save(entity);
 	}
 
+	/**
+	 * Returns the list of friends of given user's email id
+	 * @param emailId
+	 * @return
+	 */
 	public FriendListResponseDto getFriends(String emailId) {
 
 		validator.validateEmail(emailId);
@@ -61,6 +71,11 @@ public class FriendService {
 		return result;
 	}
 
+	/**
+	 * Find common friend between two users
+	 * @param friends
+	 * @return
+	 */
 	public FriendListResponseDto findCommonFriends(FriendRequestDto friends) {
 
 		validator.validateFriendRequestDto(friends);
