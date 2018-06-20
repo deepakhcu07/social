@@ -27,6 +27,12 @@ public class SubscriptionService {
 	@Autowired
 	private ValidatorComponent validator;
 
+	/**
+	 * A user subscribes updates from another user.
+	 * A requestor is subscribing target. 
+	 * If requestor has already block the target, then it only updates the block column.
+	 * @param subscriptionDto
+	 */
 	public void subscribe(SubscribeRequestDto subscriptionDto) {
 		validate(subscriptionDto);
 
@@ -48,6 +54,10 @@ public class SubscriptionService {
 		subscriptionRepository.save(entity);
 	}
 
+	/**
+	 * A user block updates from another user.
+	 * @param blockDto
+	 */
 	public void block(SubscribeRequestDto blockDto) {
 		validate(blockDto);
 
@@ -68,6 +78,12 @@ public class SubscriptionService {
 		}
 	}
 
+	/**
+	 * Returns true, if requestor has blocked the target
+	 * @param requestor
+	 * @param target
+	 * @return
+	 */
 	public boolean isBlock(String requestor, String target) {
 		SubscriptionPk subscriptionPk = new SubscriptionPk();
 		subscriptionPk.setRequestorEmailId(requestor);
@@ -80,6 +96,11 @@ public class SubscriptionService {
 		return entity.isBlock();
 	}
 
+	/**
+	 * Returns all the Recipients who will get updates 
+	 * @param updates
+	 * @return
+	 */
 	public RecipientResponseDto getRecipients(UpdateRequestDto updates) {
 		validator.validateEmail(updates.getSender());
 		List<String> recipients = subscriptionRepository.getRecipients(updates.getSender());

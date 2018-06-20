@@ -5,7 +5,6 @@ import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.view;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -32,26 +31,9 @@ public class UserControllerTest {
 	@Autowired
 	private MockMvc mvc;
 	
-	
-	public void init() {
-		
-	}
-	
 	private String toJson(Object o) throws Exception {
         return objectMapper.writeValueAsString(o);
     }
-	
-	
-	
-//	@Test
-//	public void test() throws Exception {
-//		mvc.perform(get("/friends/test")
-//				.contentType(MediaType.APPLICATION_JSON))
-//				.andExpect(status().isOk())
-//				.andExpect(view().name("Tested Successfully"))
-//				.andDo(print());
-//				
-//	}
 	
 	@Test
 	public void createUserTest() throws Exception {
