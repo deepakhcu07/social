@@ -1,7 +1,5 @@
 package com.spgroup.friend.api.controller;
 
-import static org.junit.Assert.assertTrue;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
@@ -20,7 +18,6 @@ import org.springframework.http.MediaType;
 import org.springframework.test.context.TestPropertySource;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
-import org.springframework.test.web.servlet.MvcResult;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.spgroup.friend.FriendApplication;
@@ -29,7 +26,6 @@ import com.spgroup.friend.api.dto.request.SearchFriendDto;
 import com.spgroup.friend.api.dto.request.SubscribeRequestDto;
 import com.spgroup.friend.api.dto.request.UpdateRequestDto;
 import com.spgroup.friend.api.dto.request.UserRequestDto;
-import com.spgroup.friend.api.dto.response.UserResponseDto;
 import com.spgroup.friend.service.FriendService;
 import com.spgroup.friend.service.UserService;
 
@@ -47,12 +43,6 @@ public class FriendControllerTest {
 	private UserService userService;
 	@Autowired
 	private FriendService friendService;
-	
-	
-	
-	public void init() {
-		
-	}
 	
 	private String toJson(Object o) throws Exception {
         return objectMapper.writeValueAsString(o);
@@ -76,28 +66,6 @@ public class FriendControllerTest {
 		UserRequestDto user2 = generateUserRequest(name2, email2);
 		userService.create(user1);
 		userService.create(user2);
-	}
-	
-	private void listAllUsers() {
-		List<UserResponseDto> users = userService.getAllUsers();
-		for(UserResponseDto user: users) {
-			System.out.println(user.getEmailId());
-		}
-	}
-	
-	
-	
-	@Test
-	public void test() throws Exception {
-		MvcResult result = mvc.perform(get("/friends/test")
-				.contentType(MediaType.APPLICATION_JSON))
-				.andExpect(status().isOk())
-				.andDo(print())
-				.andReturn()
-				;
-		String body = result.getResponse().getContentAsString();
-		assertTrue("", body.equals("Tested Successfully"));
-				
 	}
 	
 	@Test

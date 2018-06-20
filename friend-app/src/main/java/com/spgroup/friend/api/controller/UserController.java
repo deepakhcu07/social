@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.spgroup.friend.api.dto.request.UserRequestDto;
+import com.spgroup.friend.api.dto.response.ErrorrResponseDto;
 import com.spgroup.friend.api.dto.response.SuccessResponseDto;
 import com.spgroup.friend.api.dto.response.UserResponseDto;
 import com.spgroup.friend.service.UserService;
@@ -28,10 +29,10 @@ public class UserController {
 	@Autowired
 	private UserService userService;
 
-	@ApiOperation(value = "Create a new User", response = SuccessResponseDto.class)
+	@ApiOperation(value = "Create a new User")
 	@ApiResponses(value = {
-            @ApiResponse(code = 201, message = "Successfully Created"),
-            @ApiResponse(code = 400, message = "Bad Request")
+            @ApiResponse(code = 201, message = "Successfully Created", response = SuccessResponseDto.class),
+            @ApiResponse(code = 400, message = "Bad Request", response = ErrorrResponseDto.class)
     }
     )
 	@RequestMapping(method=RequestMethod.POST)
@@ -43,10 +44,10 @@ public class UserController {
 		return new ResponseEntity<>(response, HttpStatus.CREATED);
 	}
 	
-	@ApiOperation(value = "Return all users", response = String.class)
+	@ApiOperation(value = "Return all users")
 	@ApiResponses(value = {
-            @ApiResponse(code = 200, message = "OK"),
-            @ApiResponse(code = 500, message = "Internal Server Error")
+            @ApiResponse(code = 200, message = "OK", response = UserResponseDto.class, reference= "List"),
+            @ApiResponse(code = 500, message = "Internal Server Error", response = ErrorrResponseDto.class)
     }
     )
 	@RequestMapping(method=RequestMethod.GET)
@@ -55,10 +56,10 @@ public class UserController {
 		return new ResponseEntity<>(result, HttpStatus.OK);
 	}
 	
-	@ApiOperation(value = "Create List of Users", response = SuccessResponseDto.class)
+	@ApiOperation(value = "Create List of Users")
 	@ApiResponses(value = {
-            @ApiResponse(code = 201, message = "Successfully Created"),
-            @ApiResponse(code = 500, message = "Internal Server Error")
+            @ApiResponse(code = 201, message = "Successfully Created", response = SuccessResponseDto.class),
+            @ApiResponse(code = 500, message = "Internal Server Error", response = ErrorrResponseDto.class)
     }
     )
 	@RequestMapping(value= "/bulk-create",method = RequestMethod.POST)
@@ -70,10 +71,10 @@ public class UserController {
 		return new ResponseEntity<>(response, HttpStatus.CREATED);
 	}
 	
-	@ApiOperation(value = "Generate Dummy Users", response = String.class)
+	@ApiOperation(value = "Generate Dummy Users")
 	@ApiResponses(value = {
-            @ApiResponse(code = 201, message = "Successfully Created"),
-            @ApiResponse(code = 500, message = "Internal Server Error")
+            @ApiResponse(code = 201, message = "Successfully Created", response = SuccessResponseDto.class),
+            @ApiResponse(code = 500, message = "Internal Server Error", response = ErrorrResponseDto.class)
     }
     )
 	@RequestMapping(value="/dummy-data", method = RequestMethod.POST)

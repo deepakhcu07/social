@@ -12,6 +12,7 @@ import com.spgroup.friend.api.dto.request.FriendRequestDto;
 import com.spgroup.friend.api.dto.request.SearchFriendDto;
 import com.spgroup.friend.api.dto.request.SubscribeRequestDto;
 import com.spgroup.friend.api.dto.request.UpdateRequestDto;
+import com.spgroup.friend.api.dto.response.ErrorrResponseDto;
 import com.spgroup.friend.api.dto.response.FriendListResponseDto;
 import com.spgroup.friend.api.dto.response.RecipientResponseDto;
 import com.spgroup.friend.api.dto.response.SuccessResponseDto;
@@ -34,27 +35,13 @@ public class FriendController {
 	@Autowired
 	private SubscriptionService subscriptionService;
 	
-	@ApiOperation(value = "Create a new Friend Connection", response = String.class)
+	@ApiOperation(value = "Create a new Friend Connection")
 	@ApiResponses(value = {
-            @ApiResponse(code = 200, message = "Tested Successfully"),
-            @ApiResponse(code = 400, message = "Bad Request"),
-            @ApiResponse(code = 500, message = "Internal Server Error")
-    }
-    )
-	
-	@RequestMapping(value = "/test", method = RequestMethod.GET)
-	public String test() {
-		return "Tested Successfully";
-	}
-	
-	
-	@ApiOperation(value = "Create a new Friend Connection", response = SuccessResponseDto.class)
-	@ApiResponses(value = {
-            @ApiResponse(code = 201, message = "Successfully Created a new Connection"),
-            @ApiResponse(code = 400, message = "Bad Request"),
-            @ApiResponse(code = 404, message = "User Not found"),
-            @ApiResponse(code = 409, message = "Friend Connection already exists"),
-            @ApiResponse(code = 500, message = "Internal Server Error")
+            @ApiResponse(code = 201, message = "Successfully Created a new Connection", response = SuccessResponseDto.class),
+            @ApiResponse(code = 400, message = "Bad Request", response = ErrorrResponseDto.class),
+            @ApiResponse(code = 404, message = "User Not found", response = ErrorrResponseDto.class),
+            @ApiResponse(code = 409, message = "Friend Connection already exists", response = ErrorrResponseDto.class),
+            @ApiResponse(code = 500, message = "Internal Server Error", response = ErrorrResponseDto.class)
     }
     )
 	@RequestMapping(method = RequestMethod.POST)
@@ -67,11 +54,11 @@ public class FriendController {
 		return new ResponseEntity<>(response, HttpStatus.CREATED);
 	}
 	
-	@ApiOperation(value = "Retrieve Friend List of given Email Address", response = FriendListResponseDto.class)
+	@ApiOperation(value = "Retrieve Friend List of given Email Address")
 	@ApiResponses(value = {
-            @ApiResponse(code = 200, message = "Successfully Retrieved Email List of given EMail Address"),
-            @ApiResponse(code = 400, message = "Bad Request"),
-            @ApiResponse(code = 500, message = "Internal Server Error")
+            @ApiResponse(code = 200, message = "Successfully Retrieved Email List of given EMail Address",  response = FriendListResponseDto.class),
+            @ApiResponse(code = 400, message = "Bad Request", response = ErrorrResponseDto.class),
+            @ApiResponse(code = 500, message = "Internal Server Error", response = ErrorrResponseDto.class)
     }
     )
 	@RequestMapping(value="/search", method = RequestMethod.POST)
@@ -83,11 +70,11 @@ public class FriendController {
 	}
 	
 	
-	@ApiOperation(value = "Retrieve Common Friend List of given two Email Address", response = FriendListResponseDto.class)
+	@ApiOperation(value = "Retrieve Common Friend List of given two Email Address")
 	@ApiResponses(value = {
-            @ApiResponse(code = 200, message = "Successfully Retrieved Common Freinds"),
-            @ApiResponse(code = 400, message = "Bad Request"),
-            @ApiResponse(code = 500, message = "Internal Server Error")
+            @ApiResponse(code = 200, message = "Successfully Retrieved Common Freinds", response = FriendListResponseDto.class),
+            @ApiResponse(code = 400, message = "Bad Request", response = ErrorrResponseDto.class),
+            @ApiResponse(code = 500, message = "Internal Server Error", response = ErrorrResponseDto.class)
     }
     )
 	@RequestMapping(value="/common", method = RequestMethod.POST)
@@ -97,12 +84,12 @@ public class FriendController {
 	}
 	
 	
-	@ApiOperation(value = "Subscribe to updates from an User (Email Address)", response = SuccessResponseDto.class)
+	@ApiOperation(value = "Subscribe to updates from an User (Email Address)")
 	@ApiResponses(value = {
-            @ApiResponse(code = 201, message = "Successfully Subscribed to Email Address"),
-            @ApiResponse(code = 400, message = "Bad Request"),
-            @ApiResponse(code = 404, message = "User Not found"),
-            @ApiResponse(code = 500, message = "Internal Server Error")
+            @ApiResponse(code = 201, message = "Successfully Subscribed to Email Address", response = SuccessResponseDto.class),
+            @ApiResponse(code = 400, message = "Bad Request", response = ErrorrResponseDto.class),
+            @ApiResponse(code = 404, message = "User Not found", response = ErrorrResponseDto.class),
+            @ApiResponse(code = 500, message = "Internal Server Error", response = ErrorrResponseDto.class)
     }
     )
 	@RequestMapping(value="/subscribe", method = RequestMethod.POST)
@@ -115,12 +102,12 @@ public class FriendController {
 	}
 	
 	
-	@ApiOperation(value = "Block updates from an User (Email Address)", response = SuccessResponseDto.class)
+	@ApiOperation(value = "Block updates from an User (Email Address)")
 	@ApiResponses(value = {
-            @ApiResponse(code = 200, message = "Successfully Block Updates from an Email Address"),
-            @ApiResponse(code = 400, message = "Bad Request"),
-            @ApiResponse(code = 404, message = "User Not found"),
-            @ApiResponse(code = 500, message = "Internal Server Error")
+            @ApiResponse(code = 200, message = "Successfully Block Updates from an Email Address", response = SuccessResponseDto.class),
+            @ApiResponse(code = 400, message = "Bad Request", response = ErrorrResponseDto.class),
+            @ApiResponse(code = 404, message = "User Not found", response = ErrorrResponseDto.class),
+            @ApiResponse(code = 500, message = "Internal Server Error", response = ErrorrResponseDto.class)
     }
     )
 	@RequestMapping(value="/block", method = RequestMethod.POST)
@@ -135,9 +122,9 @@ public class FriendController {
 	
 	@ApiOperation(value = "Retrieve all email addresses that will receive updates from given email address", response = RecipientResponseDto.class)
 	@ApiResponses(value = {
-            @ApiResponse(code = 200, message = "Successfully Retrieve all email addresses"),
-            @ApiResponse(code = 400, message = "Bad Request"),
-            @ApiResponse(code = 500, message = "Internal Server Error")
+            @ApiResponse(code = 200, message = "Successfully Retrieve all email addresses", response = SuccessResponseDto.class),
+            @ApiResponse(code = 400, message = "Bad Request", response = ErrorrResponseDto.class),
+            @ApiResponse(code = 500, message = "Internal Server Error", response = ErrorrResponseDto.class)
     }
     )
 	@RequestMapping(value="/recipients", method = RequestMethod.POST)
