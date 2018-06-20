@@ -26,8 +26,11 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.spgroup.friend.FriendApplication;
 import com.spgroup.friend.api.dto.request.FriendRequestDto;
 import com.spgroup.friend.api.dto.request.SearchFriendDto;
+import com.spgroup.friend.api.dto.request.SubscribeRequestDto;
+import com.spgroup.friend.api.dto.request.UpdateRequestDto;
 import com.spgroup.friend.api.dto.request.UserRequestDto;
 import com.spgroup.friend.api.dto.response.UserResponseDto;
+import com.spgroup.friend.service.FriendService;
 import com.spgroup.friend.service.UserService;
 
 @RunWith(SpringRunner.class)
@@ -42,6 +45,8 @@ public class FriendControllerTest {
 	private MockMvc mvc;
 	@Autowired
 	private UserService userService;
+	@Autowired
+	private FriendService friendService;
 	
 	
 	
@@ -98,7 +103,6 @@ public class FriendControllerTest {
 	@Test
 	public void createFriendConnection_SuccessTest() throws Exception {
 		createUsers(1);
-		listAllUsers();
 		FriendRequestDto request = new FriendRequestDto();
 		List<String> friends = new ArrayList<>();
 		friends.add("abc1@example.com");
@@ -158,8 +162,8 @@ public class FriendControllerTest {
 	@Test
 	public void createFriendConnection_ErrorResponseWhenUserDoesNotExist() throws Exception {
 		List<String> friends = new ArrayList<>();
-		friends.add("abc3@example.com");
-		friends.add("xyz3@example.com");
+		friends.add("def@example.com");
+		friends.add("hjk@example.com");
 		FriendRequestDto request = new FriendRequestDto();
 		request.setFriends(friends);
 		String json = toJson(request);
@@ -256,6 +260,137 @@ public class FriendControllerTest {
 		.andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON))
 		.andExpect(jsonPath("$.success").value(false));
 	}
+	
+	@Test
+	public void getCommonFriendList_SuccessTest() throws Exception{
+		generateDataToTestCommonFriendList();
+		FriendRequestDto request = new FriendRequestDto();
+		List<String> frineds = new ArrayList<>();
+		frineds.add("saurav@example.com");
+		frineds.add("rahul@example.com");
+		request.setFriends(frineds);
+		String json = toJson(request);
+		mvc.perform(post("/friends/common").content(json).contentType(MediaType.APPLICATION_JSON))
+		.andDo(print())
+		.andExpect(status().isOk())
+		.andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON))
+		.andExpect(jsonPath("$.success").value(true))
+		.andExpect(jsonPath("$.count").value(1))
+		.andExpect(jsonPath("$.friends[0]").value("sachin@example.com"));
+		
+	}
+	
+	@Test
+	public void subscribe_SuccessTest() throws Exception{
+		UserRequestDto user = generateUserRequest("Warner", "warner@example.com");
+		userService.create(user);
+		user = generateUserRequest("Smith", "smith@example.com");
+		userService.create(user);
+		
+		SubscribeRequestDto subscribe = new SubscribeRequestDto();
+		subscribe.setRequestor("warner@example.com");
+		subscribe.setTarget("smith@example.com");
+		
+		String json = toJson(subscribe);
+		
+		mvc.perform(post("/friends/subscribe").content(json).contentType(MediaType.APPLICATION_JSON))
+		.andDo(print())
+		.andExpect(status().is2xxSuccessful())
+		.andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON))
+		.andExpect(jsonPath("$.success").value(true));
+		
+	}
+	
+	@Test
+	public void block_SuccessTest() throws Exception{
+		UserRequestDto user = generateUserRequest("Warner", "warner@example.com");
+		userService.create(user);
+		user = generateUserRequest("Smith", "smith@example.com");
+		userService.create(user);
+		
+		SubscribeRequestDto subscribe = new SubscribeRequestDto();
+		subscribe.setRequestor("smith@example.com");
+		subscribe.setTarget("warner@example.com");
+		
+		String json = toJson(subscribe);
+		
+		mvc.perform(post("/friends/block").content(json).contentType(MediaType.APPLICATION_JSON))
+		.andDo(print())
+		.andExpect(status().is2xxSuccessful())
+		.andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON))
+		.andExpect(jsonPath("$.success").value(true));
+		
+	}
+	
+	@Test
+	public void recipients_SuccessTest() throws Exception{
+		
+		createRecipientData();
+		UpdateRequestDto updates = new UpdateRequestDto();
+		updates.setSender("virat@example.com");
+		updates.setText("Hi, This is virat!! ravi@example.com");
+		String json = toJson(updates);
+		
+		mvc.perform(post("/friends/recipients").content(json).contentType(MediaType.APPLICATION_JSON))
+		.andDo(print())
+		.andExpect(status().is2xxSuccessful())
+		.andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON))
+		.andExpect(jsonPath("$.success").value(true));
+		
+	}
+	
+	private void createRecipientData() throws Exception {
+		UserRequestDto user = generateUserRequest("virat", "virat@example.com");
+		userService.create(user);
+		user = generateUserRequest("dhoni", "dhoni@example.com");
+		userService.create(user);
+		user = generateUserRequest("amer", "amer@example.com");
+		userService.create(user);
+		
+		FriendRequestDto request = new FriendRequestDto();
+		List<String> frineds = new ArrayList<>();
+		frineds.add("virat@example.com");
+		frineds.add("dhoni@example.com");
+		request.setFriends(frineds);
+		friendService.connectFriend(request);
+		
+		SubscribeRequestDto subscribe = new SubscribeRequestDto();
+		subscribe.setRequestor("amer@example.com");
+		subscribe.setTarget("virat@example.com");
+		
+		String json = toJson(subscribe);
+		mvc.perform(post("/friends/subscribe").content(json).contentType(MediaType.APPLICATION_JSON))
+		.andDo(print())
+		.andExpect(status().is2xxSuccessful())
+		.andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON))
+		.andExpect(jsonPath("$.success").value(true));
+		
+		
+	}
+	
+	
+	private void generateDataToTestCommonFriendList() {
+		UserRequestDto user = generateUserRequest("Sachin", "sachin@example.com");
+		userService.create(user);
+		user = generateUserRequest("Rahul", "rahul@example.com");
+		userService.create(user);
+		user = generateUserRequest("Saurav", "saurav@example.com");
+		userService.create(user);
+		
+		FriendRequestDto request = new FriendRequestDto();
+		List<String> frineds = new ArrayList<>();
+		frineds.add("sachin@example.com");
+		frineds.add("rahul@example.com");
+		request.setFriends(frineds);
+		friendService.connectFriend(request);
+		
+		frineds.clear();
+		frineds.add("sachin@example.com");
+		frineds.add("saurav@example.com");
+		friendService.connectFriend(request);
+	}
+	
+	
 	
 	
 	
