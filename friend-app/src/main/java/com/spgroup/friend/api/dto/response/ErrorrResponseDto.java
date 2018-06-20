@@ -7,6 +7,8 @@ import io.swagger.annotations.ApiModelProperty;
 public class ErrorrResponseDto {
 
 	@ApiModelProperty
+	private boolean success;
+	@ApiModelProperty
 	private Date timestamp;
 	
 	@ApiModelProperty
@@ -19,6 +21,7 @@ public class ErrorrResponseDto {
 		this.timestamp = timestamp;
 		this.message= message;
 		this.details = details;
+		this.success = false;
 	}
 
 	public Date getTimestamp() {
@@ -32,8 +35,9 @@ public class ErrorrResponseDto {
 	public String getDetails() {
 		return details;
 	}
-	
-	
-	
+
+	public boolean isSuccess() {
+		return success;
+	}
 	
 }
