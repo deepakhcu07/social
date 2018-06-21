@@ -19,25 +19,25 @@ public class CustomizedResponseEntityExceptionHandler {
 	@ExceptionHandler(InvalidDataException.class)
 	public final ResponseEntity<ErrorrResponseDto> handleInvalidDataException(InvalidDataException ex, WebRequest request) {
 		ErrorrResponseDto error = new ErrorrResponseDto(new Date(),ex.getMessage(), request.getDescription(false));
-		return new ResponseEntity<ErrorrResponseDto>(error, HttpStatus.BAD_REQUEST);
+		return new ResponseEntity<>(error, HttpStatus.BAD_REQUEST);
 	}
 	
 	@ExceptionHandler(UserNotFoundException.class)
 	public final ResponseEntity<ErrorrResponseDto> handleUserNotFoundException(UserNotFoundException ex, WebRequest request) {
 		ErrorrResponseDto error = new ErrorrResponseDto(new Date(),ex.getMessage(), request.getDescription(false));
-		return new ResponseEntity<ErrorrResponseDto>(error, HttpStatus.NOT_FOUND);
+		return new ResponseEntity<>(error, HttpStatus.NOT_FOUND);
 	}
 	
 	@ExceptionHandler(ResourceAlreadyExistException.class)
 	public final ResponseEntity<ErrorrResponseDto> handleResourceAlreadyExistException(ResourceAlreadyExistException ex, WebRequest request) {
 		ErrorrResponseDto error = new ErrorrResponseDto(new Date(),ex.getMessage(), request.getDescription(false));
-		return new ResponseEntity<ErrorrResponseDto>(error, HttpStatus.CONFLICT);
+		return new ResponseEntity<>(error, HttpStatus.CONFLICT);
 	}
 
 	@ExceptionHandler(Exception.class)
 	public final ResponseEntity<ErrorrResponseDto> handleAllExceptions(Exception ex, WebRequest request) {
 		ErrorrResponseDto error = new ErrorrResponseDto(new Date(),ex.getMessage(), request.getDescription(false));
-		return new ResponseEntity<ErrorrResponseDto>(error, HttpStatus.INTERNAL_SERVER_ERROR);
+		return new ResponseEntity<>(error, HttpStatus.INTERNAL_SERVER_ERROR);
 	}
 
 }

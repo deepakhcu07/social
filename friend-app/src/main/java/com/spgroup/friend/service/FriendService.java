@@ -47,7 +47,7 @@ public class FriendService {
 		String temp = pk.getUserEmailId();
 		pk.setUserEmailId(pk.getFriendEmailId());
 		pk.setFriendEmailId(temp);
-
+		
 		FriendEntity entity2 = new FriendEntity();
 		entity2.setPk(pk);
 		friendRepository.save(entity);

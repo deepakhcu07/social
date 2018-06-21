@@ -5,6 +5,10 @@ import com.spgroup.friend.entity.FriendEntity;
 import com.spgroup.friend.entity.FriendPk;
 
 public class FriendEntityMapper {
+	//Added Private Constructor to restrict instantiation of this class
+	private FriendEntityMapper() {
+		
+	}
 
 	public static FriendEntity toEntity(FriendRequestDto friendRequest) {
 		FriendEntity entity = new FriendEntity();
