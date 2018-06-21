@@ -34,7 +34,6 @@ public class SubscriptionService {
 	 * If requestor has already block the target, then it only updates the block column.
 	 * @param subscriptionDto
 	 */
-	@Transactional
 	public void subscribe(SubscribeRequestDto subscriptionDto) {
 		validate(subscriptionDto);
 
@@ -60,7 +59,6 @@ public class SubscriptionService {
 	 * A user block updates from another user.
 	 * @param blockDto
 	 */
-	@Transactional
 	public void block(SubscribeRequestDto blockDto) {
 		validate(blockDto);
 

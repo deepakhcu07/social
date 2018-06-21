@@ -21,7 +21,6 @@ public class UserService {
 	@Autowired
 	private ValidatorComponent validator;
 	
-	@Transactional
 	public void create(UserRequestDto user) {
 		
 		validator.validateEmail(user.getEmail());

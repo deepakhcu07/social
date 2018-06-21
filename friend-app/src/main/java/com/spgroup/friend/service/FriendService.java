@@ -36,7 +36,6 @@ public class FriendService {
 	 * If user A and B are friend, this also implies that B and A are also friend. 
 	 * @param friendRequest
 	 */
-	@Transactional
 	public void connectFriend(FriendRequestDto friendRequest) {
 
 		validate(friendRequest);

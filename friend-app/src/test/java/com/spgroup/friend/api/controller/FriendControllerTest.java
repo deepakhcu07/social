@@ -290,6 +290,42 @@ public class FriendControllerTest {
 		
 	}
 	
+	public void createFriendConnection_BlockUserCannotBeAddedAsAFriend() throws Exception {
+		
+		UserRequestDto user = generateUserRequest("Kane", "kane@example.com");
+		userService.create(user);
+		user = generateUserRequest("Azhar", "azhar@example.com");
+		userService.create(user);
+		
+		SubscribeRequestDto subscribe = new SubscribeRequestDto();
+		subscribe.setRequestor("kane@example.com");
+		subscribe.setTarget("azhar@example.com");
+		String json = toJson(subscribe);
+		
+		FriendRequestDto request = new FriendRequestDto();
+		List<String> friends = new ArrayList<>();
+		friends.add("kane@example.com");
+		friends.add("azhar@example.com");
+		request.setFriends(friends);
+		
+		mvc.perform(post("/friends/block").content(json).contentType(MediaType.APPLICATION_JSON))
+		.andDo(print())
+		.andExpect(status().is2xxSuccessful())
+		.andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON))
+		.andExpect(jsonPath("$.success").value(true));
+		
+		
+		
+		mvc.perform(post("/friends").content(json).contentType(MediaType.APPLICATION_JSON))
+		.andDo(print())
+		.andExpect(status().isBadRequest())
+		.andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON))
+		.andExpect(jsonPath("$.success").value(false));
+		
+		
+		
+	}
+	
 	@Test
 	public void recipients_SuccessTest() throws Exception{
 		
@@ -303,7 +339,9 @@ public class FriendControllerTest {
 		.andDo(print())
 		.andExpect(status().is2xxSuccessful())
 		.andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON))
-		.andExpect(jsonPath("$.success").value(true));
+		.andExpect(jsonPath("$.success").value(true))
+		.andExpect(jsonPath("$.recipients[?(@ == 'dhoni@example.com')]").exists())
+		.andExpect(jsonPath("$.recipients[?(@ == 'amer@example.com')]").exists());
 		
 	}
 	
