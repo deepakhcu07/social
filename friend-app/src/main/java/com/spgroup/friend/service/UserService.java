@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.spgroup.friend.api.dto.request.UserRequestDto;
 import com.spgroup.friend.api.dto.response.UserResponseDto;
@@ -20,6 +21,7 @@ public class UserService {
 	@Autowired
 	private ValidatorComponent validator;
 	
+	@Transactional
 	public void create(UserRequestDto user) {
 		
 		validator.validateEmail(user.getEmail());

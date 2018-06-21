@@ -5,6 +5,7 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.spgroup.friend.api.dto.request.FriendRequestDto;
 import com.spgroup.friend.api.dto.response.FriendListResponseDto;
@@ -35,6 +36,7 @@ public class FriendService {
 	 * If user A and B are friend, this also implies that B and A are also friend. 
 	 * @param friendRequest
 	 */
+	@Transactional
 	public void connectFriend(FriendRequestDto friendRequest) {
 
 		validate(friendRequest);
@@ -47,7 +49,7 @@ public class FriendService {
 		String temp = pk.getUserEmailId();
 		pk.setUserEmailId(pk.getFriendEmailId());
 		pk.setFriendEmailId(temp);
-
+		
 		FriendEntity entity2 = new FriendEntity();
 		entity2.setPk(pk);
 		friendRepository.save(entity);

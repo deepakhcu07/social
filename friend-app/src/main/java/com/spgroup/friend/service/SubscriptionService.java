@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.spgroup.friend.api.dto.request.SubscribeRequestDto;
 import com.spgroup.friend.api.dto.request.UpdateRequestDto;
@@ -33,6 +34,7 @@ public class SubscriptionService {
 	 * If requestor has already block the target, then it only updates the block column.
 	 * @param subscriptionDto
 	 */
+	@Transactional
 	public void subscribe(SubscribeRequestDto subscriptionDto) {
 		validate(subscriptionDto);
 
@@ -58,6 +60,7 @@ public class SubscriptionService {
 	 * A user block updates from another user.
 	 * @param blockDto
 	 */
+	@Transactional
 	public void block(SubscribeRequestDto blockDto) {
 		validate(blockDto);
 
