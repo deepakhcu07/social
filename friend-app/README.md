@@ -16,7 +16,7 @@ For Documentation, I have used the swagger API. Swagger help us to write the API
 API documentation is automatically generated once you start the application.
 We can find all the details about the API End Points documentation after starting the application  at `http://localhost:8080/swagger-ui.html`.
 
-I have assumed users data and all the connection, subscriptions are done from the user data. My API first validates whether the user exists or not. To test the application easily, I have defined 2 APIs 
+I have assumed users data and all the friend connections, subscriptions are done from the user data. My API first validates whether the user exists or not. To test the application easily, I have defined 2 APIs 
 1. /users/bulk-create
 	Documentation: `http://localhost:8080/swagger-ui.html#/User_Management_API/createUsingPOST_1`
 2. /users/dummy-data
@@ -43,6 +43,33 @@ Please provide the following information to connect to the database:
 	User Name: spgroup
 	Password:
 ```
+
+#### API End Points
+We can find the details of all the APIs at `http://localhost:8080/swagger-ui.html` after running the application.
+There are Two Controllers in the Service. One is to manage Users and the other is for managing friends.
+##### User Management APIs
+Manages Users
+
+- GET `/users`: Get all the users of the application
+- POST `/users`: Register a new User in the System
+- POST `/users/bulk-create`: Register multiple users in the system
+- POST `/users/dummy-data`: This will register 20 dummmy users in the system. I have created this API only for testing purpose.
+
+##### Friend Management APIs
+Manages Friend Connection, subscribe, and block 
+
+- POST `/friends`: Create a new Friend Connection between two users
+- POST `/friends/search`: Find friends of a given email address (user)
+- POST `/friends/common`: Find common friends of two given email addresses (users)
+- POST `/friends/subscribe`: A user (requestor) can subscribe to updates of another user (target).
+- POST `/friends/block`: A user (requestor) can block to updates from another user (target).
+- POST `/friends/recipients`: Returns list of all the users who will get the updates of sender.
+
+  
+
+
+
+
 	
 
 

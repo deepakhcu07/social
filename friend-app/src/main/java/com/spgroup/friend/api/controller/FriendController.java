@@ -35,10 +35,10 @@ public class FriendController {
 	@Autowired
 	private SubscriptionService subscriptionService;
 	
-	@ApiOperation(value = "Create a new Friend Connection")
+	@ApiOperation(value = "Create a Friend Connection between two users")
 	@ApiResponses(value = {
             @ApiResponse(code = 201, message = "Successfully Created a new Connection", response = SuccessResponseDto.class),
-            @ApiResponse(code = 400, message = "Bad Request", response = ErrorrResponseDto.class),
+            @ApiResponse(code = 400, message = "Bad Request. There is something wrong in the request.", response = ErrorrResponseDto.class),
             @ApiResponse(code = 404, message = "User Not found", response = ErrorrResponseDto.class),
             @ApiResponse(code = 409, message = "Friend Connection already exists", response = ErrorrResponseDto.class),
             @ApiResponse(code = 500, message = "Internal Server Error", response = ErrorrResponseDto.class)
@@ -57,7 +57,7 @@ public class FriendController {
 	@ApiOperation(value = "Retrieve Friend List of given Email Address")
 	@ApiResponses(value = {
             @ApiResponse(code = 200, message = "Successfully Retrieved Email List of given EMail Address",  response = FriendListResponseDto.class),
-            @ApiResponse(code = 400, message = "Bad Request", response = ErrorrResponseDto.class),
+            @ApiResponse(code = 400, message = "Bad Request. There is something wrong in the request.", response = ErrorrResponseDto.class),
             @ApiResponse(code = 500, message = "Internal Server Error", response = ErrorrResponseDto.class)
     }
     )
@@ -73,7 +73,7 @@ public class FriendController {
 	@ApiOperation(value = "Retrieve Common Friend List of given two Email Address")
 	@ApiResponses(value = {
             @ApiResponse(code = 200, message = "Successfully Retrieved Common Freinds", response = FriendListResponseDto.class),
-            @ApiResponse(code = 400, message = "Bad Request", response = ErrorrResponseDto.class),
+            @ApiResponse(code = 400, message = "Bad Request. There is something wrong in the request.", response = ErrorrResponseDto.class),
             @ApiResponse(code = 500, message = "Internal Server Error", response = ErrorrResponseDto.class)
     }
     )
@@ -87,7 +87,7 @@ public class FriendController {
 	@ApiOperation(value = "Subscribe to updates from an User (Email Address)")
 	@ApiResponses(value = {
             @ApiResponse(code = 201, message = "Successfully Subscribed to Email Address", response = SuccessResponseDto.class),
-            @ApiResponse(code = 400, message = "Bad Request", response = ErrorrResponseDto.class),
+            @ApiResponse(code = 400, message = "Bad Request. There is something wrong in the request.", response = ErrorrResponseDto.class),
             @ApiResponse(code = 404, message = "User Not found", response = ErrorrResponseDto.class),
             @ApiResponse(code = 500, message = "Internal Server Error", response = ErrorrResponseDto.class)
     }
@@ -105,7 +105,7 @@ public class FriendController {
 	@ApiOperation(value = "Block updates from an User (Email Address)")
 	@ApiResponses(value = {
             @ApiResponse(code = 200, message = "Successfully Block Updates from an Email Address", response = SuccessResponseDto.class),
-            @ApiResponse(code = 400, message = "Bad Request", response = ErrorrResponseDto.class),
+            @ApiResponse(code = 400, message = "Bad Request. There is something wrong in the request.", response = ErrorrResponseDto.class),
             @ApiResponse(code = 404, message = "User Not found", response = ErrorrResponseDto.class),
             @ApiResponse(code = 500, message = "Internal Server Error", response = ErrorrResponseDto.class)
     }
@@ -120,10 +120,10 @@ public class FriendController {
 	}
 	
 	
-	@ApiOperation(value = "Retrieve all email addresses that will receive updates from given email address", response = RecipientResponseDto.class)
+	@ApiOperation(value = "Retrieve all email addresses that will receive updates from given email address")
 	@ApiResponses(value = {
-            @ApiResponse(code = 200, message = "Successfully Retrieve all email addresses", response = SuccessResponseDto.class),
-            @ApiResponse(code = 400, message = "Bad Request", response = ErrorrResponseDto.class),
+            @ApiResponse(code = 200, message = "Successfully Retrieve all email addresses", response = RecipientResponseDto.class),
+            @ApiResponse(code = 400, message = "Bad Request. There is something wrong in the request.", response = ErrorrResponseDto.class),
             @ApiResponse(code = 500, message = "Internal Server Error", response = ErrorrResponseDto.class)
     }
     )
