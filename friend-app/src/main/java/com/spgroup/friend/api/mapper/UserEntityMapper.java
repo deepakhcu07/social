@@ -11,6 +11,11 @@ import com.spgroup.friend.entity.UserEntity;
 
 public class UserEntityMapper {
 
+	// Added Private Constructor to restrict instantiation of this class
+	private UserEntityMapper() {
+
+	}
+
 	public static UserResponseDto toDto(UserEntity entity) {
 		if (entity == null) {
 			return null;

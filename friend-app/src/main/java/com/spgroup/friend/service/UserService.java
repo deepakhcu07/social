@@ -42,6 +42,7 @@ public class UserService {
 			}
 		}catch(UserNotFoundException ex) {
 			//TODO Add logger to log the message
+			
 		}
 		
 	}
